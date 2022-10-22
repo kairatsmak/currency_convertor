@@ -1,16 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 import service
 
 # global variable for save currency list
-currency_list = []
+currency_list = service.load_all_currency()
 
 app = Flask(__name__)
-
-@app.before_first_request
-def before():
-    global currency_list
-    currency_list = service.load_all_currency()
 
 @app.route("/")
 def main():
@@ -19,6 +14,7 @@ def main():
     convert_type = request.args.get('convert_type')
     convert_name = request.args.get('convert_name')
     count = request.args.get('count')
+    json = request.args.get('json')
     
 
     curr_list = []
@@ -35,7 +31,10 @@ def main():
                 "sale": "{:.2f}".format(currency["sale"] * int(count)),
                 "buy": "{:.2f}".format(currency["buy"] * int(count)),
             }
-
+    
+    if json:
+        return jsonify(result)
+        
     return render_template(
         "index.html", 
         currency_list=curr_list, 
