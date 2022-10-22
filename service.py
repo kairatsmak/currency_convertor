@@ -5,7 +5,7 @@ from selenium.webdriver.chrome.options import Options
 
 from config import JUSANBANK_URL, EXCHANGE_RATE_TYPES
 
-def format_float(string_value: str):
+def format_float(string_value: str) -> float:
     """Function for get float from string"""
     if string_value == '':
         return 0
@@ -14,7 +14,7 @@ def format_float(string_value: str):
     return float(''.join(num_list))
     
 
-def load_for_individual(driver, currency_list):
+def load_for_individual(driver: webdriver, currency_list: list) -> None:
     """Load echange rate for individual"""
     elements = driver.find_elements(By.CLASS_NAME, "exchange-cardbody")
     for element in elements:
@@ -31,7 +31,7 @@ def load_for_individual(driver, currency_list):
             data["buy"] = format_float(el.text)
             currency_list.append(data)    
 
-def load_other(driver, currency_list):
+def load_other(driver: webdriver, currency_list: list) -> None:
     """Load exchange rate for other"""
     exchange_rate_index = 1
     elements = driver.find_elements(By.CLASS_NAME, "exchange-tablebody")
@@ -63,7 +63,7 @@ def load_other(driver, currency_list):
 
         exchange_rate_index += 1        
     
-def load_all_currency():
+def load_all_currency() -> list:
     """Load all data from url"""
     options = Options()
     options.headless = True

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 
 import service
 
-# global variable for save currency
+# global variable for save currency list
 currency_list = []
 
 app = Flask(__name__)
