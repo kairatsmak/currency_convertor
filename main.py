@@ -11,6 +11,7 @@ app = Flask(__name__)
 def before():
     global currency_list
     currency_list = service.load_all_currency()
+    print(currency_list)
 
 @app.route("/")
 def main():

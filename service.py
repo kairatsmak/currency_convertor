@@ -1,10 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 
 
 from config import JUSANBANK_URL, EXCHANGE_RATE_TYPES
 
 def format_float(string_value: str):
+    """Function for get float from string"""
+    if string_value == '':
+        return 0
     digits = "0123456789."
     num_list = [num for num in string_value if num in digits]
     return float(''.join(num_list))
@@ -61,7 +65,9 @@ def load_other(driver, currency_list):
     
 def load_all_currency():
     """Load all data from url"""
-    driver = webdriver.Chrome(executable_path="./chromedriver.exe")
+    options = Options()
+    options.headless = True
+    driver = webdriver.Chrome(executable_path="./chromedriver.exe", options=options)
     driver.get(JUSANBANK_URL)
     
     currency_list = []
